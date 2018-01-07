@@ -5,10 +5,10 @@ $(document).ready(function(){
 
     Context.create();
     mapa = new Mapa(Nivel1.arreglo, Nivel1.width, Nivel1.height);
-    jugador = new Jugador("img/swordman.png");
+    jugador = new Jugador("img/swordman.png", 0, 0);
 
-    mapa.arreglo[0][0] = jugador;
-    resize();
+    mapa.jugadores.push(jugador);
+    //resize();
 
     setInterval(function(){
         mapa.draw();
@@ -23,5 +23,5 @@ function resize(){
 }
 
 $(window).bind("resize", function(){
-    resize();
+    //resize();
 });

@@ -1,5 +1,6 @@
 function Mapa(arreglo, width, height){
     this.arreglo = arreglo;
+    this.jugadores = [];
 
     this.ancho = Context.canvas.width/width;
     this.alto = Context.canvas.height/height;
@@ -11,10 +12,11 @@ function Mapa(arreglo, width, height){
         for(var i = 0; i < height; i++){
             for(var j = 0; j < width; j++){
                 Context.context.strokeRect(j*this.ancho,i*this.alto,this.ancho,this.alto);
-                if(arreglo[i][j].tipo == PLAYER){
-                    arreglo[i][j].draw(i, j, this.ancho, this.alto);
-                }
             }
+        }
+
+        for (var i = 0; i < this.jugadores.length; i++) {
+            this.jugadores[i].draw(this.ancho, this.alto);
         }
     };
 

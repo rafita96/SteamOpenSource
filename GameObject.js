@@ -7,13 +7,16 @@ var FLOOR = new GameObject(0),
     HOUSE = new GameObject(2),
     PLAYER = 3;
 
-function Jugador(src){
+function Jugador(src, x, y){
 
     GameObject.call(this, PLAYER);
     this.img = new Image;
     this.img.src = src;
 
-    this.draw = function(x, y, width, height){
-        Context.context.drawImage(this.img, x*width, y*height, width, height);
+    this.x = x;
+    this.y = y;
+
+    this.draw = function(width, height){
+        Context.context.drawImage(this.img, this.x*width, this.y*height, width, height);
     };
 };
