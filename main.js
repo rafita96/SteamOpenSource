@@ -9,9 +9,13 @@ $(document).ready(function(){
 
     mapa.jugadores.push(jugador);
     //resize();
+    Mouse.Initialize(Context.canvas);
 
     setInterval(function(){
         mapa.draw();
+        if(Mouse.down){
+            console.log("(" + Mouse.x + ", " + Mouse.y + ")");
+        };
     }, 30);
 });
 
