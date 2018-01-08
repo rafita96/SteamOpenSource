@@ -13,9 +13,6 @@ $(document).ready(function(){
 
     setInterval(function(){
         mapa.draw();
-        if(Mouse.down){
-            console.log("(" + Mouse.x + ", " + Mouse.y + ")");
-        };
     }, 30);
 });
 
