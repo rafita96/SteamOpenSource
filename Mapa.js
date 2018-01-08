@@ -3,12 +3,12 @@ function Mapa(arreglo, width, height){
     this.jugadores = [];
 
     this.ancho = Context.canvas.width/width;
-    this.alto = Context.canvas.height/height;
+    this.alto = (Context.canvas.height - ControlPanel.height)/height;
 
     this.draw = function(){
         // Dibuja una base gris sobre todo el mapa.
         Context.context.fillStyle = "#95a5a6";
-        Context.context.fillRect(0, 0, canvas.width, canvas.height);
+        Context.context.fillRect(0, 0, canvas.width, canvas.height - ControlPanel.height);
 
         // Dibujar la cuadricula, por eso es strokeRect
         for(var i = 0; i < height; i++){

@@ -13,6 +13,7 @@ $(document).ready(function(){
 
     setInterval(function(){
         mapa.draw();
+        ControlPanel.draw();
     }, 30);
 });
 
