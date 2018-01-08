@@ -5,7 +5,7 @@ $(document).ready(function(){
 
     Context.create();
     mapa = new Mapa(Nivel1.arreglo, Nivel1.width, Nivel1.height);
-    jugador = new Jugador("img/swordman.png", 0, 0);
+    jugador = new Personaje("img/swordman.png", 0, 0);
 
     mapa.jugadores.push(jugador);
     //resize();

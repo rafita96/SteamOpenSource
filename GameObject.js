@@ -7,7 +7,7 @@ var FLOOR = new GameObject(0),
     HOUSE = new GameObject(2),
     PLAYER = 3;
 
-function Jugador(src, x, y){
+function Personaje(src, x, y){
 
     GameObject.call(this, PLAYER);
     this.img = new Image;
