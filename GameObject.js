@@ -18,6 +18,7 @@ function Personaje(src, x, y){
     this.vida = 0;          // Puntos de vida
     this.quant = 0;         // Cantidad de quantums
     this.rec_quant = 0;     // Recuperación de quantums
+    this.pasos = 0;         // Pasos caminados durante el ciclo
 
     // Daño 
     this.dmg_basico = 0;
@@ -35,7 +36,6 @@ function Personaje(src, x, y){
 
     // Multiplicadores
     this.rango_atk = 0;
-
 
     this.x = x;
     this.y = y;
