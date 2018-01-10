@@ -50,8 +50,12 @@ function Skill(src){
     this.img = new Image;
     this.img.src = src;
 
-    this.draw = function(x, y, width, height){
-        Context.context.fillStyle = "#2980b9";
+    this.draw = function(x, y, width, height, selected = false){
+        if(selected){
+            Context.context.fillStyle = "#ecf0f1";    
+        }else{
+            Context.context.fillStyle = "#2980b9";
+        }
         Context.context.fillRect(x, y, width, height); 
         Context.context.strokeRect(x, y, width, height); 
         Context.context.drawImage(this.img, x, y, width, height);
