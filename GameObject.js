@@ -36,6 +36,8 @@ function Personaje(src, x, y){
     // Multiplicadores
     this.rango_atk = 0;
 
+    this.habilidades = [new Skill("img/basic.png"),new Skill("img/basic.png"),new Skill("img/basic.png")];
+    console.log(this.habilidades);
 
     this.x = x;
     this.y = y;
@@ -49,6 +51,10 @@ function Skill(src){
     GameObject.call(this, ABILITY);
     this.img = new Image;
     this.img.src = src;
+
+    // Rango
+    this.min = 0;
+    this.max = 0;
 
     this.draw = function(x, y, width, height){
         Context.context.fillStyle = "#2980b9";
