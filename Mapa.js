@@ -20,14 +20,7 @@ function Mapa(arreglo, width, height){
         // Dibujar a los jugadores sobre el mapa
         for (var i = 0; i < this.jugadores.length; i++) {
             this.jugadores[i].draw(this.ancho, this.alto);
-        }
-
-        // Cuadrito que dice en donde esta el mouse.
-        j = Math.floor(Mouse.x/this.ancho);
-        i = Math.floor(Mouse.y/this.alto); 
-
-        Context.context.fillStyle = "#2ecc71";
-        Context.context.fillRect(j*this.ancho,i*this.alto,this.ancho,this.alto);  
+        }  
     };
 
     this.resize = function(){

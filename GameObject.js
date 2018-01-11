@@ -18,6 +18,7 @@ function Personaje(src, x, y){
     this.vida = 0;          // Puntos de vida
     this.quant = 0;         // Cantidad de quantums
     this.rec_quant = 0;     // Recuperación de quantums
+    this.pasos = 0;         // Pasos caminados durante el ciclo
 
     // Daño 
     this.dmg_basico = 0;
@@ -56,8 +57,12 @@ function Skill(src){
     this.min = 0;
     this.max = 0;
 
-    this.draw = function(x, y, width, height){
-        Context.context.fillStyle = "#2980b9";
+    this.draw = function(x, y, width, height, selected = false){
+        if(selected){
+            Context.context.fillStyle = "#ecf0f1";    
+        }else{
+            Context.context.fillStyle = "#2980b9";
+        }
         Context.context.fillRect(x, y, width, height); 
         Context.context.strokeRect(x, y, width, height); 
         Context.context.drawImage(this.img, x, y, width, height);
