@@ -59,6 +59,11 @@ var ControlPanel = {
             // Deberia pintar un camino desde la posicion del personaje hasta donde quiere ir
             Context.context.fillStyle = "#2ecc71";
             Context.context.fillRect(j*mapa.ancho,i*mapa.alto,mapa.ancho,mapa.alto);
+            
+            // Dibuja el costo de Quantums para llegar a ese cuadro
+            Context.context.fillStyle = "#000";
+            Context.context.font = "15px Arial";
+            Context.context.fillText(costo, (j+0.5)*mapa.ancho, (i+0.75)*mapa.alto);
 
             // Si le pica significa que quiere caminar
             if(Mouse.down && this.cooldown == 0){
