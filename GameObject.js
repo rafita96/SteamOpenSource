@@ -40,11 +40,46 @@ function Personaje(src, x, y){
     this.habilidades = [new Skill("img/basic.png"),new Skill("img/basic.png"),new Skill("img/basic.png")];
     console.log(this.habilidades);
 
+    // Posicion actual
     this.x = x;
     this.y = y;
 
+    // Posicion nueva
+    this.x_new = x;
+    this.y_new = y;
+    // Velocidad a la que se va a mover
+    this.speed = 0.2;
+
     this.draw = function(width, height){
+
+        // Dibujar una caminata a traves de la cuadricula.
+        // Si la nueva x es mayor entonces se debe aumentar la x actual
+        if(this.x_new > this.x){
+            this.x += this.speed;
+            // Si la x actual sobre pasa la nueva x, entonces se le asigna la nueva x.
+            if(Math.floor(this.x) == this.x_new){
+                this.x = this.x_new;
+            }
+        }else if(this.x_new < this.x){ // Si la nueva x es menor, entonces se debe decrementar la x actual
+            this.x -= this.speed;
+            // Si la x actual es menor a la nueva x, entonces se asigna la nueva x.
+            if(Math.ceil(this.x) == this.x_new){
+                this.x = this.x_new;
+            }
+        }else if(this.y_new > this.y){
+            this.y += this.speed;
+            if(Math.floor(this.y) == this.y_new){
+                this.y = this.y_new;
+            }
+        }else if(this.y_new < this.y){
+            this.y -= this.speed;
+            if(Math.ceil(this.y) == this.y_new){
+                this.y = this.y_new;
+            }
+        }
+        
         Context.context.drawImage(this.img, this.x*width, this.y*height, width, height);
+
     };
 };
 

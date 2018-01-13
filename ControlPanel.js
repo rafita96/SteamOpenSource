@@ -21,20 +21,20 @@ var ControlPanel = {
         this.drawPasos(3);
 
         // Pinta los skills, siempre y cuando quepan en la pantalla.
-        var menor = Math.min(this.maxSkills - this.extras, this.commands.length)
+        var menor = Math.min(this.maxSkills - this.extras, jugador.habilidades.length)
         for (var i = 0; i < menor; i++) {
             var seleccionado = false;
             if(this.skillSelected == i + this.extras){
                 seleccionado = true;
             }
 
-            this.commands[i].draw((i + this.extras)*Math.floor(this.width/this.maxSkills), Context.canvas.height - this.height, 
+            jugador.habilidades[i].draw((i + this.extras)*Math.floor(this.width/this.maxSkills), Context.canvas.height - this.height, 
                 Math.floor(this.width/this.maxSkills), this.height, seleccionado);
         }
 
         // Si son menos skills, entonces rellena con cuadros.
-        if(this.commands.length < this.maxSkills - this.extras){
-            for (var i = this.commands.length; i < this.maxSkills - this.extras; i++) {
+        if(jugador.habilidades.length < this.maxSkills - this.extras){
+            for (var i = jugador.habilidades.length; i < this.maxSkills - this.extras; i++) {
                 Context.context.strokeRect((i+this.extras)*Math.floor(this.width/this.maxSkills), Context.canvas.height - this.height, 
                     Math.floor(this.width/this.maxSkills), this.height);
             }
@@ -44,7 +44,7 @@ var ControlPanel = {
         var j = Math.floor(Mouse.x/mapa.ancho);
         var i = Math.floor(Mouse.y/mapa.alto);
 
-        var distancia = Math.abs(j - jugador.x) + Math.abs(i - jugador.y);
+        var distancia = Math.abs(j - jugador.x_new) + Math.abs(i - jugador.y_new);
 
         // Suma de numeros consecutivos.
         // El primer paso cuesta 1, el segundo 2, el tercero 3... el enesimo n*(n-1)/2
@@ -67,8 +67,8 @@ var ControlPanel = {
 
             // Si le pica significa que quiere caminar
             if(Mouse.down && this.cooldown == 0){
-                jugador.x = j;
-                jugador.y = i;
+                jugador.x_new = j;
+                jugador.y_new = i;
 
                 jugador.pasos += distancia;
                 jugador.quant = jugador.quant - costo;
@@ -80,9 +80,6 @@ var ControlPanel = {
         }
 
     },
-
-    commands: [new Skill("img/basic.png"), new Skill("img/basic.png"), 
-                new Skill("img/basic.png"), new Skill("img/basic.png")],
 
     handleClick: function(x, y){
         if(Mouse.y > Context.canvas.height - this.height){
