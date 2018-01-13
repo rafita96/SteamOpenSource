@@ -49,6 +49,7 @@ function Personaje(src, x, y){
     this.y_new = y;
     // Velocidad a la que se va a mover
     this.speed = 0.2;
+    this.direccion = 0; // 0 hacia abajo, 1 derecha, 2 izquierda, 3 arriba.
 
     this.draw = function(width, height){
 
@@ -56,23 +57,39 @@ function Personaje(src, x, y){
         // Si la nueva x es mayor entonces se debe aumentar la x actual
         if(this.x_new > this.x){
             this.x += this.speed;
+
+            this.img.src = "img/swordman_derecha.png";
+            this.direccion = 1;
+            
             // Si la x actual sobre pasa la nueva x, entonces se le asigna la nueva x.
             if(Math.floor(this.x) == this.x_new){
                 this.x = this.x_new;
             }
         }else if(this.x_new < this.x){ // Si la nueva x es menor, entonces se debe decrementar la x actual
             this.x -= this.speed;
+
+            this.img.src = "img/swordman_izquierda.png";
+            this.direccion = 2;
+
             // Si la x actual es menor a la nueva x, entonces se asigna la nueva x.
             if(Math.ceil(this.x) == this.x_new){
                 this.x = this.x_new;
             }
         }else if(this.y_new > this.y){
             this.y += this.speed;
+
+            this.img.src = "img/swordman.png";
+            this.direccion = 0;
+            
             if(Math.floor(this.y) == this.y_new){
                 this.y = this.y_new;
             }
         }else if(this.y_new < this.y){
             this.y -= this.speed;
+
+            this.img.src = "img/swordman_atras.png";
+            this.direccion = 3;
+            
             if(Math.ceil(this.y) == this.y_new){
                 this.y = this.y_new;
             }
