@@ -107,14 +107,22 @@ function Personaje(src, x, y){
 
 function Skill(src){
     GameObject.call(this, ABILITY);
-    this.img = new Image;
 
+    this.img = new Image;
     this.loadFinished = false;
+    this.img.addEventListener('load', function() {
+            loadFinished = true;
+        }, false);
     this.img.src = src;
 
     // Rango
     this.min = 0;
     this.max = 0;
+    // Area de efecto:
+    //  - Circulo = 0
+    //  - Cruz = 1
+    //  - Cuadrado = 2 
+    this.AOE = 0;
 
     this.dmg_basico = 0;
     this.dmg_aire = 0;      
@@ -130,12 +138,16 @@ function Skill(src){
         }
         Context.context.fillRect(x, y, width, height); 
         Context.context.strokeRect(x, y, width, height);
-        Context.context.drawImage(this.img, x, y, width, height);  
+        if(loadFinished){
+            Context.context.drawImage(this.img, x, y, width, height);  
+        }
     };
 };
 
 function CutSkill(src){
-    Skill.call(this);
+    Skill.call(this, src);
 
     this.dmg_basico = 15;
+    this.min = 1;
+    this.max = 2;
 };

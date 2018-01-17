@@ -4,7 +4,7 @@ $(document).ready(function(){
     marginY = 100;
     
     tiempo = 0; // Tiempo para contar los ciclos
-    ciclo = 500; // Tiempo que se debe cumplir para un ciclo
+    ciclo = 250; // Tiempo que se debe cumplir para un ciclo
     var limite = 40; // Limite de quantums del personaje... esto debe ser un atributo del personaje
     var regeneracion = 20; // Regeneracion de quantums por ciclo... debe ser atributo del personaje
 
