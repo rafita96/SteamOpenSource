@@ -10,7 +10,7 @@ $(document).ready(function(){
 
     Context.create();
     mapa = new Mapa(Nivel1.arreglo, Nivel1.width, Nivel1.height);
-    jugador = new Personaje("img/swordman.png", 0, 0);
+    jugador = new Personaje("img/swordman.png", 7, 7);
     jugador.vida = 100;
     jugador.quant = 20;
 

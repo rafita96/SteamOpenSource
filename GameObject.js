@@ -149,5 +149,5 @@ function CutSkill(src){
 
     this.dmg_basico = 15;
     this.min = 1;
-    this.max = 2;
+    this.max = 1;
 };

@@ -2,6 +2,10 @@ function Mapa(arreglo, width, height){
     this.arreglo = arreglo;
     this.jugadores = [];
 
+    // Numero de casillas del mapa.
+    this.casillasX = width;
+    this.casillasY = height;
+
     this.ancho = Context.canvas.width/width;
     this.alto = (Context.canvas.height - ControlPanel.height)/height;
 
