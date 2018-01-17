@@ -3,7 +3,7 @@ var ControlPanel = {
     height: 50,
     maxSkills: 14,
     skillSelected: -1,
-    extras: 3,
+    extras: 4,
     cooldown: 0, // Retraso del click, para que no haga 2 cosas casi instantaneas.
 
     draw: function() {
@@ -18,7 +18,8 @@ var ControlPanel = {
         Context.context.textAlign = "center";
         this.drawTimer(1);
         this.drawQuantum(2);
-        this.drawPasos(3);
+        this.drawVida(3);
+        this.drawPasos(4);
 
         // Pinta los skills, siempre y cuando quepan en la pantalla.
         var menor = Math.min(this.maxSkills - this.extras, jugador.habilidades.length)
@@ -122,6 +123,20 @@ var ControlPanel = {
         Context.context.fillStyle = "#000";
         Context.context.font = "20px Arial";
         Context.context.fillText(ciclo-tiempo, Math.floor(this.width/this.maxSkills)/2 * pos, Context.canvas.height - this.height/4);
+    },
+
+    drawVida: function(pos){
+        Context.context.fillStyle = "#34495e";
+        Context.context.fillRect((pos-1)*Math.floor(this.width/this.maxSkills), Context.canvas.height - this.height, Math.floor(this.width/this.maxSkills), this.height);
+        Context.context.strokeRect((pos-1)*Math.floor(this.width/this.maxSkills), Context.canvas.height - this.height, Math.floor(this.width/this.maxSkills), this.height);
+
+        
+        // Context.context.font = this.height+"px Arial";
+        // Context.context.fillText("Q", Math.floor(this.width/this.maxSkills)/2, Context.canvas.height);
+
+        Context.context.fillStyle = "#000";
+        Context.context.font = "20px Arial";
+        Context.context.fillText(jugador.vida, (2*pos - 1)*Math.floor(this.width/this.maxSkills)/2, Context.canvas.height - this.height/4);
     },
 
     drawPasos: function(pos){

@@ -6,11 +6,12 @@ $(document).ready(function(){
     tiempo = 0; // Tiempo para contar los ciclos
     ciclo = 500; // Tiempo que se debe cumplir para un ciclo
     var limite = 40; // Limite de quantums del personaje... esto debe ser un atributo del personaje
-    var regeneracion = 10; // Regeneracion de quantums por ciclo... debe ser atributo del personaje
+    var regeneracion = 20; // Regeneracion de quantums por ciclo... debe ser atributo del personaje
 
     Context.create();
     mapa = new Mapa(Nivel1.arreglo, Nivel1.width, Nivel1.height);
     jugador = new Personaje("img/swordman.png", 0, 0);
+    jugador.vida = 100;
     jugador.quant = 20;
 
     mapa.jugadores.push(jugador);
@@ -26,8 +27,9 @@ $(document).ready(function(){
             tiempo = 0;
             jugador.pasos = 0;
         }
-
+        
         tiempo += 1;
+        
     }, 30);
 });
 

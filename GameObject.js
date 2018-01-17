@@ -12,6 +12,10 @@ function Personaje(src, x, y){
 
     GameObject.call(this, PLAYER);
     this.img = new Image;
+    var loadFinished = false;
+    this.img.addEventListener('load', function() {
+            loadFinished = true;
+        }, false);
     this.img.src = src;
 
     // Stats básicos
@@ -37,8 +41,7 @@ function Personaje(src, x, y){
     // Multiplicadores
     this.rango_atk = 0;
 
-    this.habilidades = [new Skill("img/basic.png"),new Skill("img/basic.png"),new Skill("img/basic.png")];
-    console.log(this.habilidades);
+    this.habilidades = [new CutSkill("img/basic.png")];
 
     // Posicion actual
     this.x = x;
@@ -95,7 +98,9 @@ function Personaje(src, x, y){
             }
         }
         
-        Context.context.drawImage(this.img, this.x*width, this.y*height, width, height);
+        if(loadFinished){
+            Context.context.drawImage(this.img, this.x*width, this.y*height, width, height);
+        }
 
     };
 };
@@ -103,11 +108,19 @@ function Personaje(src, x, y){
 function Skill(src){
     GameObject.call(this, ABILITY);
     this.img = new Image;
+
+    this.loadFinished = false;
     this.img.src = src;
 
     // Rango
     this.min = 0;
     this.max = 0;
+
+    this.dmg_basico = 0;
+    this.dmg_aire = 0;      
+    this.dmg_tierra = 0;
+    this.dmg_fuego = 0;
+    this.dmg_agua = 0;
 
     this.draw = function(x, y, width, height, selected = false){
         if(selected){
@@ -116,7 +129,13 @@ function Skill(src){
             Context.context.fillStyle = "#2980b9";
         }
         Context.context.fillRect(x, y, width, height); 
-        Context.context.strokeRect(x, y, width, height); 
-        Context.context.drawImage(this.img, x, y, width, height);
+        Context.context.strokeRect(x, y, width, height);
+        Context.context.drawImage(this.img, x, y, width, height);  
     };
+};
+
+function CutSkill(src){
+    Skill.call(this);
+
+    this.dmg_basico = 15;
 };
