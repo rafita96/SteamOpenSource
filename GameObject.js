@@ -2,21 +2,39 @@ function GameObject(tipo) {
     this.tipo = tipo;
 };
 
-var FLOOR = new GameObject(0),
-    TREE = new GameObject(1),
-    HOUSE = new GameObject(2),
+// Constantes para el mapa
+var FLOOR = 0,
+    TREE = 1,
+    HOUSE = 2,
     PLAYER = 3,
-    ABILITY = 4;
+    ABILITY = 4,
+    VILLAIN = 5;
 
+// Tipos de area de alcance o efecto
+var MONO_OBJETIVO = 0,
+    CIRCULO = 1,
+    CUADRADO = 2,
+    CRUZ = 3;
+
+// Direccion del personaje
+var ABAJO = 0,
+    DERECHA = 1,
+    IZQUIERDA = 2,
+    ARRIBA = 3;
+
+/**
+ *  @param src   Arreglo de vistas del personaje con el siguiente orden [ABAJO, DERECHA, IZQUIERDA, ARRIBA]
+ *  @param x     Posicion x en coordenadas del mapa.
+ *  @param y     Posicion y en coordenadas del mapa.
+ */
 function Personaje(src, x, y){
 
-    GameObject.call(this, PLAYER);
     this.img = new Image;
     var loadFinished = false;
     this.img.addEventListener('load', function() {
             loadFinished = true;
         }, false);
-    this.img.src = src;
+    this.img.src = src[ABAJO];
 
     // Stats básicos
     this.vida = 0;          // Puntos de vida
@@ -52,7 +70,7 @@ function Personaje(src, x, y){
     this.y_new = y;
     // Velocidad a la que se va a mover
     this.speed = 0.2;
-    this.direccion = 0; // 0 hacia abajo, 1 derecha, 2 izquierda, 3 arriba.
+    this.direccion = ABAJO; 
 
     this.draw = function(width, height){
 
@@ -61,8 +79,8 @@ function Personaje(src, x, y){
         if(this.x_new > this.x){
             this.x += this.speed;
 
-            this.img.src = "img/swordman_derecha.png";
-            this.direccion = 1;
+            this.img.src = src[DERECHA];
+            this.direccion = DERECHA;
             
             // Si la x actual sobre pasa la nueva x, entonces se le asigna la nueva x.
             if(Math.floor(this.x) == this.x_new){
@@ -71,8 +89,8 @@ function Personaje(src, x, y){
         }else if(this.x_new < this.x){ // Si la nueva x es menor, entonces se debe decrementar la x actual
             this.x -= this.speed;
 
-            this.img.src = "img/swordman_izquierda.png";
-            this.direccion = 2;
+            this.img.src = src[IZQUIERDA];
+            this.direccion = IZQUIERDA;
 
             // Si la x actual es menor a la nueva x, entonces se asigna la nueva x.
             if(Math.ceil(this.x) == this.x_new){
@@ -81,8 +99,8 @@ function Personaje(src, x, y){
         }else if(this.y_new > this.y){
             this.y += this.speed;
 
-            this.img.src = "img/swordman.png";
-            this.direccion = 0;
+            this.img.src = src[ABAJO];
+            this.direccion = ABAJO;
             
             if(Math.floor(this.y) == this.y_new){
                 this.y = this.y_new;
@@ -90,8 +108,8 @@ function Personaje(src, x, y){
         }else if(this.y_new < this.y){
             this.y -= this.speed;
 
-            this.img.src = "img/swordman_atras.png";
-            this.direccion = 3;
+            this.img.src = src[ARRIBA];
+            this.direccion = ARRIBA;
             
             if(Math.ceil(this.y) == this.y_new){
                 this.y = this.y_new;
@@ -118,11 +136,10 @@ function Skill(src){
     // Rango
     this.min = 0;
     this.max = 0;
+    // Tipo de rango de la habilidad
+    this.tipoRango = CIRCULO;
     // Area de efecto:
-    //  - Circulo = 0
-    //  - Cruz = 1
-    //  - Cuadrado = 2 
-    this.AOE = 0;
+    this.AOE = MONO_OBJETIVO;
 
     this.dmg_basico = 0;
     this.dmg_aire = 0;      

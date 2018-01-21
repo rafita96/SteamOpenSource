@@ -11,22 +11,18 @@ var ControlPanel = {
             this.cooldown -= 1;
         }
 
-
         // Posicion del mouse en el mapa.
         var j = Math.floor(Mouse.x/mapa.ancho);
         var i = Math.floor(Mouse.y/mapa.alto);
 
-        var distancia = Math.abs(j - jugador.x_new) + Math.abs(i - jugador.y_new);
         if(Mouse.y < Context.canvas.height - this.height && this.skillSelected == -1){
-            // Suma de numeros consecutivos.
-            // El primer paso cuesta 1, el segundo 2, el tercero 3... el enesimo n*(n-1)/2
-            // Se considera la distancia que se quiere recorrer mas la que ya se ha recorrido.
-            // A los Quantums actuales les quitamos los quantums que cuesta caminar al momento del click
-            // Esto se hace para no cobrar 2 veces lo que ya habiamos cobrado y se mantenga el criterio de
-            // que cada paso cueste uno mas que el anterior.
-            var costo = ((jugador.pasos + distancia)*(jugador.pasos + distancia + 1) - (jugador.pasos)*(jugador.pasos + 1))/2;
             
-            if(distancia != 0 && costo <= jugador.quant){
+            // Calcula el costo en Quantums para viajar a ese lugar.
+            var costo_distancia = calcularCostoCaminata(jugador.pasos, jugador.x_new, jugador.y_new, j, i);
+            var costo = costo_distancia[0];
+            var distancia = costo_distancia[1];
+
+            if(costo != 0 && costo <= jugador.quant){
 
                 // Deberia pintar un camino desde la posicion del personaje hasta donde quiere ir
                 Context.context.fillStyle = "#2ecc71";
@@ -51,12 +47,14 @@ var ControlPanel = {
             var habilidad = jugador.habilidades[this.skillSelected];
             Context.context.fillStyle = "#3498db";
 
-            // Dibuja un circulo perfecto y depende del rango de la habilidad
-            for(var y=-habilidad.max; y<=habilidad.max; y++){
-                for(var x=-habilidad.max; x<=habilidad.max; x++){
-                    if((Math.abs(x - y) <= habilidad.max && Math.abs(x + y) <= habilidad.max)
-                        && (Math.abs(x + y) >= habilidad.min || Math.abs(x - y) >= habilidad.min)){
-                        Context.context.fillRect((x+jugador.x)*mapa.ancho,(y+jugador.y)*mapa.alto,mapa.ancho,mapa.alto);
+            if(habilidad.tipoRango == CIRCULO){
+                // Dibuja un circulo perfecto y depende del rango de la habilidad
+                for(var y=-habilidad.max; y<=habilidad.max; y++){
+                    for(var x=-habilidad.max; x<=habilidad.max; x++){
+                        if((Math.abs(x - y) <= habilidad.max && Math.abs(x + y) <= habilidad.max)
+                            && (Math.abs(x + y) >= habilidad.min || Math.abs(x - y) >= habilidad.min)){
+                            Context.context.fillRect((x+jugador.x)*mapa.ancho,(y+jugador.y)*mapa.alto,mapa.ancho,mapa.alto);
+                        }
                     }
                 }
             }
@@ -64,8 +62,11 @@ var ControlPanel = {
             // Sobresaltar la posicion seleccionada al alcance de la habilidad
             if(Math.abs(jugador.x - j) + Math.abs(jugador.y - i) <= habilidad.max &&
                 Math.abs(jugador.x - j) + Math.abs(jugador.y - i) >= habilidad.min){
-                Context.context.fillStyle = "#e67e22";
-                Context.context.fillRect(j*mapa.ancho,i*mapa.alto,mapa.ancho,mapa.alto);
+                
+                if(habilidad.AOE == MONO_OBJETIVO){
+                    Context.context.fillStyle = "#e67e22";
+                    Context.context.fillRect(j*mapa.ancho,i*mapa.alto,mapa.ancho,mapa.alto);
+                }
             }
         }
         

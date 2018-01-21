@@ -1,13 +1,14 @@
-function Mapa(arreglo, width, height){
-    this.arreglo = arreglo;
+function Mapa(nivel){
+    this.arreglo = nivel.arreglo;
     this.jugadores = [];
+    this.villanos = [];
 
     // Numero de casillas del mapa.
-    this.casillasX = width;
-    this.casillasY = height;
+    this.casillasX = nivel.width;
+    this.casillasY = nivel.height;
 
-    this.ancho = Context.canvas.width/width;
-    this.alto = (Context.canvas.height - ControlPanel.height)/height;
+    this.ancho = Context.canvas.width/this.casillasX;
+    this.alto = (Context.canvas.height - ControlPanel.height)/this.casillasY;
 
     this.draw = function(){
         // Dibuja una base gris sobre todo el mapa.
@@ -15,8 +16,8 @@ function Mapa(arreglo, width, height){
         Context.context.fillRect(0, 0, canvas.width, canvas.height - ControlPanel.height);
 
         // Dibujar la cuadricula, por eso es strokeRect
-        for(var i = 0; i < height; i++){
-            for(var j = 0; j < width; j++){
+        for(var i = 0; i < this.casillasY; i++){
+            for(var j = 0; j < this.casillasX; j++){
                 Context.context.strokeRect(j*this.ancho,i*this.alto,this.ancho,this.alto);
             }
         }
@@ -28,7 +29,7 @@ function Mapa(arreglo, width, height){
     };
 
     this.resize = function(){
-        this.ancho = Context.canvas.width/width;
-        this.alto = Context.canvas.height/height;
+        this.ancho = Context.canvas.width/this.casillasX;
+        this.alto = Context.canvas.height/this.casillasY;
     };
 };
