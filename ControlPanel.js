@@ -12,13 +12,16 @@ var ControlPanel = {
         }
 
         // Posicion del mouse en el mapa.
-        var j = Math.floor(Mouse.x/mapa.ancho);
-        var i = Math.floor(Mouse.y/mapa.alto);
+        var x_click = Math.floor(Mouse.x/mapa.ancho);
+        var y_click = Math.floor(Mouse.y/mapa.alto);
 
-        if(Mouse.y < Context.canvas.height - this.height && this.skillSelected == -1){
+        var posicionValida = isPosicionValida(x_click, y_click);
+        
+        // opcion para caminar.
+        if(posicionValida == null && Mouse.y < Context.canvas.height - this.height && this.skillSelected == -1){
             
             // Calcula el costo en Quantums para viajar a ese lugar.
-            var costo_distancia = calcularCostoCaminata(jugador.pasos, jugador.x_new, jugador.y_new, j, i);
+            var costo_distancia = calcularCostoCaminata(jugador.pasos, jugador.x_new, jugador.y_new, x_click, y_click);
             var costo = costo_distancia[0];
             var distancia = costo_distancia[1];
 
@@ -26,23 +29,23 @@ var ControlPanel = {
 
                 // Deberia pintar un camino desde la posicion del personaje hasta donde quiere ir
                 Context.context.fillStyle = "#2ecc71";
-                Context.context.fillRect(j*mapa.ancho,i*mapa.alto,mapa.ancho,mapa.alto);
+                Context.context.fillRect(x_click*mapa.ancho,y_click*mapa.alto,mapa.ancho,mapa.alto);
                 
                 // Dibuja el costo de Quantums para llegar a ese cuadro
                 Context.context.fillStyle = "#000";
                 Context.context.font = "15px Arial";
-                Context.context.fillText(costo, (j+0.5)*mapa.ancho, (i+0.75)*mapa.alto);
+                Context.context.fillText(costo, (x_click+0.5)*mapa.ancho, (y_click+0.75)*mapa.alto);
 
                 // Si le pica significa que quiere caminar
                 if(Mouse.down && this.cooldown == 0){
-                    jugador.x_new = j;
-                    jugador.y_new = i;
+                    jugador.x_new = x_click;
+                    jugador.y_new = y_click;
 
                     jugador.pasos += distancia;
                     jugador.quant = jugador.quant - costo;
                 }
             }
-        }else if(this.skillSelected != -1){
+        }else if(this.skillSelected != -1){ // Opcion para ejecutar una habilidad
             // Como hay alguna habilidad seleccionada se dibujara el alcance de la habilidad
             var habilidad = jugador.habilidades[this.skillSelected];
             Context.context.fillStyle = "#3498db";
@@ -60,12 +63,22 @@ var ControlPanel = {
             }
 
             // Sobresaltar la posicion seleccionada al alcance de la habilidad
-            if(Math.abs(jugador.x - j) + Math.abs(jugador.y - i) <= habilidad.max &&
-                Math.abs(jugador.x - j) + Math.abs(jugador.y - i) >= habilidad.min){
+            if(Math.abs(jugador.x - x_click) + Math.abs(jugador.y - y_click) <= habilidad.max &&
+                Math.abs(jugador.x - x_click) + Math.abs(jugador.y - y_click) >= habilidad.min){
                 
                 if(habilidad.AOE == MONO_OBJETIVO){
                     Context.context.fillStyle = "#e67e22";
-                    Context.context.fillRect(j*mapa.ancho,i*mapa.alto,mapa.ancho,mapa.alto);
+                    Context.context.fillRect(x_click*mapa.ancho,y_click*mapa.alto,mapa.ancho,mapa.alto);
+                }
+
+                if(Mouse.down){ 
+                    // Como hay una habilidad seleccionada y el click esta dentro del alcance
+                    // entonces ejecuta la habilidad
+                    executeSkill(x_click, y_click, habilidad);
+                    jugador.quant -= habilidad.costo[habilidad.ejecuciones];
+
+                    // Se reinicia la habilidad seleccionada
+                    this.skillSelected = -1;
                 }
             }
         }
@@ -102,7 +115,7 @@ var ControlPanel = {
             }
         }
         if(Mouse.down){
-            this.handleClick(j, i);
+            this.handleClick(x_click, y_click);
         }
 
     },
@@ -114,10 +127,7 @@ var ControlPanel = {
                 this.skillSelected = -1;
             }
         }else if(this.skillSelected != -1){ // Si hay alguna habilidad seleccionada
-            // Si en el mapa hay algun objetivo y el alcance la habilidad lo permite,
-            // entonces lo ejecuta 
-            
-            //y la habilidad seleccionada se reinicia.
+            // Y esta fuera de rango entonces la habilidad seleccionada se reinicia.
             this.skillSelected = -1;
         }
 

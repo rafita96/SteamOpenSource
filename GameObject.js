@@ -133,6 +133,10 @@ function Skill(src){
         }, false);
     this.img.src = src;
 
+    // Costo de la habilidad en Quantums
+    this.costo = [0]; // Un arreglo de costos por ejecucion.
+    this.ejecuciones = 0; // Numero de ejecuciones por ciclo. 
+
     // Rango
     this.min = 0;
     this.max = 0;
@@ -146,6 +150,8 @@ function Skill(src){
     this.dmg_tierra = 0;
     this.dmg_fuego = 0;
     this.dmg_agua = 0;
+
+    this.executeSkill = function(objetivo){};
 
     this.draw = function(x, y, width, height, selected = false){
         if(selected){
@@ -167,4 +173,11 @@ function CutSkill(src){
     this.dmg_basico = 15;
     this.min = 1;
     this.max = 1;
+    this.costo = [2, 4, 6, 10, 15, 30, 60];
+    this.ejecuciones = 0;
+
+    this.executeSkill = function(objetivo){
+        objetivo.vida -= this.dmg_basico;
+        this.ejecuciones = Math.min(this.ejecuciones + 1, this.costo.length);
+    };
 };

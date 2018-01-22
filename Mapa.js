@@ -1,7 +1,5 @@
 function Mapa(nivel){
     this.arreglo = nivel.arreglo;
-    this.jugadores = [];
-    this.villanos = [];
 
     // Numero de casillas del mapa.
     this.casillasX = nivel.width;
@@ -20,11 +18,6 @@ function Mapa(nivel){
             for(var j = 0; j < this.casillasX; j++){
                 Context.context.strokeRect(j*this.ancho,i*this.alto,this.ancho,this.alto);
             }
-        }
-
-        // Dibujar a los jugadores sobre el mapa
-        for (var i = 0; i < this.jugadores.length; i++) {
-            this.jugadores[i].draw(this.ancho, this.alto);
         }  
     };
 
